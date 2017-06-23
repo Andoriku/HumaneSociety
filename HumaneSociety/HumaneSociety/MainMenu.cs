@@ -10,50 +10,48 @@ namespace HumaneSociety
     {
         public static void Run()
         {
-            StatOrEndProgram();
-
+           string choice = UserUI.GetStringInput("Welcome to the Humane Society Pet Adoption Database. To get started, type 'start' or to close out, type 'exit'");
+            StatOrEndProgram(choice);
         }
-        private static void StatOrEndProgram()
+        private static void StatOrEndProgram(string choice)
         {
-            Console.WriteLine("Welcome to the Humane Society Pet Adoption Database. To get started, type 'start' or to close out, type 'exit'");
-            string initialInput = Console.ReadLine();
-            switch (initialInput)
+            switch (choice)
             {
                 case "start":
                     Console.Clear();
-                    SelectUserType();
+                    SelectUserType(UserUI.GetStringInput("Are you an adopter here to adopt an anaimal or Are you an employee? Type 'adopter' or 'employee' or, to close out, type 'exit'"));
                     break;
                 case "exit":
                     break;
                 default:
-                    Console.WriteLine("Oops! You entered a wrong message! try again.");
+                    UserUI.DisplayMessage("Oops! You entered a wrong message! try again.");
                     Console.ReadLine();
                     Console.Clear();
-                    StatOrEndProgram();
+                    StatOrEndProgram(choice);
                     break;
             }
         }
-        private static void SelectUserType()
+        private static void SelectUserType(string choice)
         {
-            Console.WriteLine("Are you an adoptee here to adopt an anaimal or Are you an employee? Type 'adoptee' or 'employee' or, to close out, type 'exit'");
-            string userTypeInput = Console.ReadLine();
-            switch (userTypeInput)
+            switch (choice)
             {
-                case "adoptee":
+                case "adopter":
+                    Adopter adopter = new Adopter();
                     Console.Clear();
-                    AdopterUI.Run();
+                    adopter.Run();
                     break;
                 case "employee":
+                    EmployeePortal employeePortal = new EmployeePortal();
                     Console.Clear();
-                    EmployeeUI.Run();
+                    employeePortal.Run();
                     break;
                 case "exit":
                     break;
                 default:
-                    Console.WriteLine("Oops! You entered a wrong message! try again.");
+                    UserUI.DisplayMessage("Oops! You entered a wrong message! try again.");
                     Console.ReadLine();
                     Console.Clear();
-                    StatOrEndProgram();
+                    Run();
                     break;
             }
 

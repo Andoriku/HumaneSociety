@@ -4,3 +4,9 @@ c:\users\andrew jordan\documents\visual studio 2015\Projects\HumaneSociety\Human
 c:\users\andrew jordan\documents\visual studio 2015\Projects\HumaneSociety\HumaneSociety\obj\Debug\HumaneSociety.csprojResolveAssemblyReference.cache
 c:\users\andrew jordan\documents\visual studio 2015\Projects\HumaneSociety\HumaneSociety\obj\Debug\HumaneSociety.exe
 c:\users\andrew jordan\documents\visual studio 2015\Projects\HumaneSociety\HumaneSociety\obj\Debug\HumaneSociety.pdb
+C:\Users\Andrew Jordan\Desktop\HumaneSociety\HumaneSociety\HumaneSociety\bin\Debug\HumaneSociety.exe.config
+C:\Users\Andrew Jordan\Desktop\HumaneSociety\HumaneSociety\HumaneSociety\obj\Debug\HumaneSociety.exe
+C:\Users\Andrew Jordan\Desktop\HumaneSociety\HumaneSociety\HumaneSociety\obj\Debug\HumaneSociety.pdb
+C:\Users\Andrew Jordan\Desktop\HumaneSociety\HumaneSociety\HumaneSociety\bin\Debug\HumaneSociety.exe
+C:\Users\Andrew Jordan\Desktop\HumaneSociety\HumaneSociety\HumaneSociety\bin\Debug\HumaneSociety.pdb
+C:\Users\Andrew Jordan\Desktop\HumaneSociety\HumaneSociety\HumaneSociety\obj\Debug\HumaneSociety.csprojResolveAssemblyReference.cache

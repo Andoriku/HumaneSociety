@@ -6,17 +6,16 @@ using System.Threading.Tasks;
 
 namespace HumaneSociety
 {
-    public static class EmployeeUI
+    class Mammal : Animal
     {
-        public static void Run()
+        public Mammal()
         {
-            
-        }
-        private static string GetInput()
-        {
-            string input = Console.ReadLine();
-            return input;
-        }
 
+        }
+        public Guid GetAnimalID()
+        {
+            animalID = System.Guid.NewGuid();
+            return animalID;
+        }
     }
 }
