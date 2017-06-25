@@ -317,9 +317,30 @@ namespace HumaneSociety
                     break;
             }
         }
+        List<string> bioInputs = new List<string>();
+        DataClasses1DataContext humaneSocietyDataBase = new DataClasses1DataContext();
         public void EnterBio()
         {
-
+            UserUI.DisplayMessage("We here at the Humane Society Like to match our perspective Adopters with the animals we think would be a good fit for them. This is a Short Bio for you to fill out so that our Caretakers can match you with the right animal. We will ask you some questions and gather you animal preferance so we can better decide which animal is right for you.");
+            Console.Clear();
+            bioInputs.Insert(0,UserUI.GetStringInput("What is your first name?"));
+            bioInputs.Insert(1, UserUI.GetStringInput("What is your last name?"));
+            bioInputs.Insert(2, UserUI.GetStringInput("How old are you? Enter a number"));
+            bioInputs.Insert(3, UserUI.GetStringInput("What is your personality type? 'lounge and relax','laid back','semi-active','avtive mover', or 'never stop moving''"));
+            bioInputs.Insert(4, UserUI.GetStringInput("What kind of animal are you intreseted in(eg dog, cat, bird, ferret, bunny, etc.)?"));
+            bioInputs.Insert(5, UserUI.GetStringInput("What breed are you most interested in? you can write 'n/a' or 'none' if you're not sure"));
+        }
+        public void AddBioToDatabase()
+        {
+            Adopter adopter = new Adopter();
+            adopter._adopterFirstName = bioInputs[0];
+            adopter._adopterLastName = bioInputs[1];
+            adopter._age = Convert.ToInt32(bioInputs[2]);
+            adopter._personallityType = bioInputs[3];
+            adopter._animalSpeciesPref = bioInputs[4];
+            adopter._animalBreedPref = bioInputs[5];
+            humaneSocietyDataBase.Adopters.InsertOnSubmit(adopter);
+            humaneSocietyDataBase.SubmitChanges();
         }
         public void SearchFor()
         {
