@@ -300,6 +300,7 @@ namespace HumaneSociety
             {
                 case "1":
                     EnterBio();
+                    ConfirmBio();
                     AddBioToDatabase();
                     break;
                 case "2":
@@ -327,14 +328,32 @@ namespace HumaneSociety
             bioInputs.Insert(0,UserUI.GetStringInput("What is your first name?"));
             bioInputs.Insert(1, UserUI.GetStringInput("What is your last name?"));
             bioInputs.Insert(2, UserUI.GetStringInput("How old are you? Enter a number"));
-            bioInputs.Insert(3, UserUI.GetStringInput("What is your personality type? 'lounge and relax','laid back','semi-active','avtive mover', or 'never stop moving''"));
+            bioInputs.Insert(3, UserUI.GetStringInput("What is your personality type? 'lounge and relax','laid back','semi-active','active mover', or 'never stop moving'")); 
             bioInputs.Insert(4, UserUI.GetStringInput("What kind of animal are you intreseted in(eg dog, cat, bird, ferret, bunny, etc.)?"));
             bioInputs.Insert(5, UserUI.GetStringInput("What breed are you most interested in? you can write 'n/a' or 'none' if you're not sure"));
+        }
+        public void ConfirmBio()
+        {
             foreach (string a in bioInputs)
             {
                 UserUI.DisplayMessage(a);
             }
-            UserUI.GetStringInput("is all your information correct? if yes enter 'y', if no enter 'n'");
+            string confirmInformation = UserUI.GetStringInput("is all your information correct? if yes enter 'y', if no enter 'n'");
+            switch (confirmInformation)
+            {
+                case "y":
+                    break;
+                case "n":
+                    Console.Clear();
+                    EnterBio();
+                    break;
+                default:
+                    UserUI.DisplayMessage("Oops! You entered a wrong message! try again.");
+                    Console.ReadLine();
+                    Console.Clear();
+                    ConfirmBio();
+                    break;
+            }
         }
         public void AddBioToDatabase()
         {
@@ -348,6 +367,10 @@ namespace HumaneSociety
             adopter._animalBreedPref = bioInputs[5];
             humaneSocietyDataBase.Adopters.InsertOnSubmit(adopter);
             humaneSocietyDataBase.SubmitChanges();
+            UserUI.DisplayMessage("Thank you for your interest in our animals here at the Humane Society.");
+            Console.ReadLine();
+            Console.Clear();
+            Run();
         }
         public void SearchFor()
         {
