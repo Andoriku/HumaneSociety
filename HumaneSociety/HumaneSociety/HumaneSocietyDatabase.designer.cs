@@ -300,6 +300,7 @@ namespace HumaneSociety
             {
                 case "1":
                     EnterBio();
+                    AddBioToDatabase();
                     break;
                 case "2":
                     SearchFor();
@@ -329,10 +330,16 @@ namespace HumaneSociety
             bioInputs.Insert(3, UserUI.GetStringInput("What is your personality type? 'lounge and relax','laid back','semi-active','avtive mover', or 'never stop moving''"));
             bioInputs.Insert(4, UserUI.GetStringInput("What kind of animal are you intreseted in(eg dog, cat, bird, ferret, bunny, etc.)?"));
             bioInputs.Insert(5, UserUI.GetStringInput("What breed are you most interested in? you can write 'n/a' or 'none' if you're not sure"));
+            foreach (string a in bioInputs)
+            {
+                UserUI.DisplayMessage(a);
+            }
+            UserUI.GetStringInput("is all your information correct? if yes enter 'y', if no enter 'n'");
         }
         public void AddBioToDatabase()
         {
             Adopter adopter = new Adopter();
+            adopter.adopterID = System.Guid.NewGuid();
             adopter._adopterFirstName = bioInputs[0];
             adopter._adopterLastName = bioInputs[1];
             adopter._age = Convert.ToInt32(bioInputs[2]);

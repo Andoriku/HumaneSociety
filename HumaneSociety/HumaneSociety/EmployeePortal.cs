@@ -9,7 +9,7 @@ namespace HumaneSociety
     class EmployeePortal
     {
         DataClasses1DataContext db = new DataClasses1DataContext();
-
+        List<string> animalInputs = new List<string>();
         public void Run()
         {
             string choice = UserUI.GetStringInput("What would you like to do? \n Add Animal to database: '1' \n Match Adopter Bio to an animal: '2' \n Update Animal Bio: '3' \n To go back: 'back' \n Exit the porgram: 'exit'"
@@ -21,7 +21,7 @@ namespace HumaneSociety
             switch (choice)
             {
                 case "1":
-                    AddAnimal();
+                    AddAnimalToDatabase();
                     break;
                 case "2":
                     SearchBio();
@@ -40,8 +40,13 @@ namespace HumaneSociety
                     break;
             }
         }
-        public void AddAnimal()
+        public void EnterNewAnimal()
         {
+
+        }
+        public void AddAnimalToDatabase()
+        {
+            Animal animal = new HumaneSociety.Animal();
 
         }
         public void SearchBio()
