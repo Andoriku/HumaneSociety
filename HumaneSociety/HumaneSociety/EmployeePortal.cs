@@ -27,7 +27,7 @@ namespace HumaneSociety
                     NextAdd();
                     break;
                 case "2":
-                    SearchAndViewBio();
+                    WhichSearchToExicute();
                     break;
                 case "3":
                     UpdateAnimal();
@@ -129,9 +129,76 @@ namespace HumaneSociety
                 NextAdd();
             }
         }
-        public void SearchAndViewBio()
+        public void WhichSearchToExicute()
         {
-
+            string input = UserUI.GetStringInput("what would you like to search by? 'adopter ID','first name','last name','age','personality','species','breed'");
+            switch (input)
+            {
+                case "adopter ID":
+                    string idInput = UserUI.GetStringInput("Type in UserID with dashes:");
+                   Guid Guid = new Guid(idInput);
+                    SearchByID(Guid);
+                    break;
+                case "first name":
+                    string firstNameInput = UserUI.GetStringInput("Type in the user's first name:");
+                    SearchByFirstName(firstNameInput);
+                    break;
+                case "last name":
+                    break;
+                case "age":
+                    break;
+                case "personality":
+                    break;
+                case "species":
+                    break;
+                case "breed":
+                    break;
+                default:
+                    UserUI.DisplayMessage("Oops! You entered a wrong message! try again.");
+                    Console.ReadLine();
+                    Console.Clear();
+                    WhichSearchToExicute();
+                    break;
+            }
+        }
+        public void SearchByID(Guid IDInput)
+        {
+            DataClasses1DataContext humaneSocietyDataBase = new DataClasses1DataContext();
+            var Query = from search in humaneSocietyDataBase.Adopters
+                        where search.adopterID == IDInput
+                        select search;
+            Console.WriteLine("\n Search Results \n");
+            foreach (var item in Query)
+            {
+                Console.WriteLine(String.Format("{0} \t {1} \t {2} \t {3} \t {4} \t {5} \t {6}", item.adopterID,item.adopterFirstName,item.adopterLastName,item.age,item.personallityType,item.animalSpeciesPref,item.animalBreedPref));
+            }
+            Console.ReadLine();
+        }
+        public void SearchByFirstName(string firstNameInput)
+        {
+            DataClasses1DataContext humaneSocietyDataBase = new DataClasses1DataContext();
+            var Query = from search in humaneSocietyDataBase.Adopters
+                        where search.adopterFirstName == firstNameInput
+                        select search;
+            Console.WriteLine("\n Search Results \n");
+            foreach (var item in Query)
+            {
+                Console.WriteLine(String.Format("{0} \t {1} \t {2} \t {3} \t {4} \t {5} \t {6}", item.adopterID, item.adopterFirstName, item.adopterLastName, item.age, item.personallityType, item.animalSpeciesPref, item.animalBreedPref));
+            }
+            Console.ReadLine();
+        }
+        public void SearchByLastName(string LastNameInput)
+        {
+            DataClasses1DataContext humaneSocietyDataBase = new DataClasses1DataContext();
+            var Query = from search in humaneSocietyDataBase.Adopters
+                        where search.adopterLastName == LastNameInput
+                        select search;
+            Console.WriteLine("\n Search Results \n");
+            foreach (var item in Query)
+            {
+                Console.WriteLine(String.Format("{0} \t {1} \t {2} \t {3} \t {4} \t {5} \t {6}", item.adopterID, item.adopterFirstName, item.adopterLastName, item.age, item.personallityType, item.animalSpeciesPref, item.animalBreedPref));
+            }
+            Console.ReadLine();
         }
         public void UpdateAnimal()
         {
