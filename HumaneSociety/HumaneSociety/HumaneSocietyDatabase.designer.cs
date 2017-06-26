@@ -403,6 +403,8 @@ namespace HumaneSociety
 		private string _personalityType;
 		
 		private decimal _price;
+
+        private bool _Shots;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -420,7 +422,9 @@ namespace HumaneSociety
     partial void OnroomNumberChanged();
     partial void OnadoptionAvailabilityChanging(bool value);
     partial void OnadoptionAvailabilityChanged();
-    partial void OnfoodTypeChanging(string value);
+        partial void OnShotsChanging(bool value);
+        partial void OnShotsChanged();
+        partial void OnfoodTypeChanging(string value);
     partial void OnfoodTypeChanged();
     partial void OnfoodAmountChanging(string value);
     partial void OnfoodAmountChanged();
@@ -654,6 +658,24 @@ namespace HumaneSociety
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
-	}
+        public bool Shots
+        {
+            get
+            {
+                return this._Shots;
+            }
+            set
+            {
+                if ((this._Shots != value))
+                {
+                    this.OnShotsChanging(value);
+                    this.SendPropertyChanging();
+                    this._Shots = value;
+                    this.SendPropertyChanged("adoptionAvailability");
+                    this.OnShotsChanged();
+                }
+            }
+        }
+    }
 }
 #pragma warning restore 1591
