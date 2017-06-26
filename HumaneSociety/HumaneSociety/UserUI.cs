@@ -20,6 +20,12 @@ namespace HumaneSociety
             int input = Convert.ToInt32(Console.ReadLine());
             return input;
         }
+        public static decimal GetDecimalInput(string ConsoleMessage)
+        {
+            DisplayMessage(ConsoleMessage);
+            decimal input = Convert.ToDecimal(Console.ReadLine());
+            return input;
+        }
         public static void DisplayMessage(string Message)
         {
             Console.WriteLine(Message);

@@ -304,7 +304,7 @@ namespace HumaneSociety
                     AddBioToDatabase();
                     break;
                 case "2":
-                    SearchFor();
+                    WhichSearchToExicute();
                     break;
                 case "back":
                     MainMenu.Run();
@@ -321,6 +321,8 @@ namespace HumaneSociety
         }
         List<string> bioInputs = new List<string>();
         DataClasses1DataContext humaneSocietyDataBase = new DataClasses1DataContext();
+        private IQueryable<object> select;
+
         public void EnterBio()
         {
             UserUI.DisplayMessage("We here at the Humane Society Like to match our perspective Adopters with the animals we think would be a good fit for them. This is a Short Bio for you to fill out so that our Caretakers can match you with the right animal. We will ask you some questions and gather you animal preferance so we can better decide which animal is right for you.");
@@ -372,9 +374,112 @@ namespace HumaneSociety
             Console.Clear();
             Run();
         }
-        public void SearchFor()
+        public void WhichSearchToExicute()
         {
+            string input = UserUI.GetStringInput("what would you like to search by? 'animal name','species','breed','personality','price', or 'all available'");
+            switch (input)
+            {
+                case "animal name":
+                   string name = UserUI.GetStringInput("What is the name of the animal you are lookiing for?");
+                    SearchByName(name);
+                    break;
+                case "species":
+                    break;
+                case "breed":
+                    break;
+                case "personality":
+                    break;
+                case "price":
+                    break;
+                case "all avaliable":
+                    break;
+                default:
+                    UserUI.DisplayMessage("Oops! You entered a wrong message! try again.");
+                    Console.ReadLine();
+                    Console.Clear();
+                    WhichSearchToExicute();
+                    break;
+            }
+        }
+        public void SearchByName(string name)
+        {
+            var Query = from search in humaneSocietyDataBase.Animals
+                        where search.name == name
+                        select search;
+            Console.WriteLine("\n Search Results \n");
+            foreach (var item in Query)
+            {
+                Console.WriteLine(String.Format("Name: {0} \nSpecies: {1} \nBreed(if Aplicable): {2} \nPersonality: {3} \nRecommended Food Type: {4} \nRecommended Amount Of Food A Week:  {5} \nAdoption Cost: ${6}", item.name, item.species, item.breed, item.personalityType, item.foodType, item.foodAmount, item.price));
+                Console.WriteLine("____________________________________________");
+            }
+        }
+        public void SearchBySpecies(string species)
+        {
+            var Query = from search in humaneSocietyDataBase.Animals
+                        where search.species == species
+                        select search;
+            Console.WriteLine("\n Search Results \n");
+            foreach (var item in Query)
+            {
+                Console.WriteLine(String.Format("Name: {0} \nSpecies: {1} \nBreed(if Aplicable): {2} \nPersonality: {3} \nRecommended Food Type: {4} \nRecommended Amount Of Food A Week:  {5} \nAdoption Cost: ${6}", item.name, item.species, item.breed, item.personalityType, item.foodType, item.foodAmount, item.price));
+                Console.WriteLine("____________________________________________");
+            }
+        }
+        public void SearchByBreed(string breed)
+        {
+            var Query = from search in humaneSocietyDataBase.Animals
+                        where search.breed == breed
+                        select search;
+            Console.WriteLine("\n Search Results \n");
+            foreach (var item in Query)
+            {
+                Console.WriteLine(String.Format("Name: {0} \nSpecies: {1} \nBreed(if Aplicable): {2} \nPersonality: {3} \nRecommended Food Type: {4} \nRecommended Amount Of Food A Week:  {5} \nAdoption Cost: ${6}", item.name, item.species, item.breed, item.personalityType, item.foodType, item.foodAmount, item.price));
+                Console.WriteLine("____________________________________________");
+            }
+        }
+        public void SearchByPersonality(string personality)
+        {
+            var Query = from search in humaneSocietyDataBase.Animals
+                        where search.personalityType == personality
+                        select search;
+            Console.WriteLine("\n Search Results \n");
+            foreach (var item in Query)
+            {
+                Console.WriteLine(String.Format("Name: {0} \nSpecies: {1} \nBreed(if Aplicable): {2} \nPersonality: {3} \nRecommended Food Type: {4} \nRecommended Amount Of Food A Week:  {5} \nAdoption Cost: ${6}", item.name, item.species, item.breed, item.personalityType, item.foodType, item.foodAmount, item.price));
+                Console.WriteLine("____________________________________________");
+            }
+        }
+        public void SearchByPrice(decimal price)
+        {
+            var Query = from search in humaneSocietyDataBase.Animals
+                        where search.price == price
+                        select search;
+            Console.WriteLine("\n Search Results \n");
+            foreach (var item in Query)
+            {
+                Console.WriteLine(String.Format("Name: {0} \nSpecies: {1} \nBreed(if Aplicable): {2} \nPersonality: {3} \nRecommended Food Type: {4} \nRecommended Amount Of Food A Week:  {5} \nAdoption Cost: ${6}", item.name, item.species, item.breed, item.personalityType, item.foodType, item.foodAmount, item.price));
+                Console.WriteLine("____________________________________________");
+            }
+        }
+        public void ShowAllAvailable()
+        {
+            var Query = from row in humaneSocietyDataBase.Animals
+                        select row;
 
+            Console.WriteLine("\n All Animals \n");
+            foreach (var item in Query)
+            {
+                if (item.adoptionAvailability == true)
+                {
+                    Console.WriteLine(String.Format("Name: {0} \nSpecies: {1} \nBreed(if Aplicable): {2} \nPersonality: {3} \nRecommended Food Type: {4} \nRecommended Amount Of Food A Week:  {5} \nAdoption Cost: ${6}", item.name, item.species, item.breed, item.personalityType, item.foodType, item.foodAmount, item.price));
+                    Console.WriteLine("____________________________________________");
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            Console.ReadLine();
         }
     }
 

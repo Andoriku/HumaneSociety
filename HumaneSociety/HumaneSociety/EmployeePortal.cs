@@ -302,7 +302,7 @@ namespace HumaneSociety
             string idInput = UserUI.GetStringInput("Type in a animalID with dashes:");
             Guid guid = new Guid(idInput);
          
-            string choice = UserUI.GetStringInput("What would you like to update? 'adoption','name', or 'shots'");
+            string choice = UserUI.GetStringInput("What would you like to update? 'adoption','name', 'price' or 'shots'");
             switch (choice)
             {
                 case "adoption":
@@ -310,6 +310,9 @@ namespace HumaneSociety
                     break;
                 case "name":
                     ChangeAnimalName(guid);
+                    break;
+                case "price":
+                    ChangeAnimalPrice(guid);
                     break;
                 case "shots":
                     ChangeShotStatus(guid);
@@ -328,6 +331,25 @@ namespace HumaneSociety
             var Query = from search in humaneSocietyDataBase.Animals
                         where search.animalID == input
                         select search;
+            foreach (Animal item in Query)
+            {
+                string newAdoptionStatus = UserUI.GetStringInput("What would you like to change " + item.name + "'s Adoption Status to? Enter 'true' or 'false'");
+                bool s;
+                if (newAdoptionStatus == "true")
+                {
+                    s = true;
+                }
+                else if (newAdoptionStatus == "false")
+                {
+                    s = false;
+                }
+                else
+                {
+                    s = true;
+                }
+                item.adoptionAvailability = s;
+                humaneSocietyDataBase.SubmitChanges();
+            }
         }
         public void ChangeAnimalName(Guid input)
         {
@@ -341,6 +363,18 @@ namespace HumaneSociety
                 humaneSocietyDataBase.SubmitChanges();
             }
         }
+        public void ChangeAnimalPrice(Guid input)
+        {
+            var Query = from search in humaneSocietyDataBase.Animals
+                        where search.animalID == input
+                        select search;
+            foreach (Animal item in Query)
+            {
+                decimal newName = UserUI.GetDecimalInput("What would you like to change " + item.name + "'s price to? Enter new price:");
+                item.price = newName;
+                humaneSocietyDataBase.SubmitChanges();
+            }
+        }
         public void ChangeShotStatus(Guid input)
         {
             var Query = from search in humaneSocietyDataBase.Animals
@@ -349,7 +383,20 @@ namespace HumaneSociety
             foreach (Animal item in Query)
             {
                 string newShotStatus = UserUI.GetStringInput("What would you like to change " + item.name + "'s Shot Status to? Enter 'true' or 'false'");
-                item.name = newShotStatus;
+                bool s;
+                if (newShotStatus == "true")
+                {
+                    s = true;
+                }
+                else if (newShotStatus == "false")
+                {
+                    s = false;
+                }
+                else
+                {
+                    s = true;
+                }
+                item.Shots = s;
                 humaneSocietyDataBase.SubmitChanges();
             }
         }
