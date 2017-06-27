@@ -380,16 +380,24 @@ namespace HumaneSociety
             switch (input)
             {
                 case "animal name":
-                   string name = UserUI.GetStringInput("What is the name of the animal you are lookiing for?");
+                   string name = UserUI.GetStringInput("What is the name of the animal you are looking for?");
                     SearchByName(name);
                     break;
                 case "species":
+                    string species = UserUI.GetStringInput("What species of animal are you are looking for?");
+                    SearchBySpecies(species);
                     break;
                 case "breed":
+                    string breed = UserUI.GetStringInput("What breed of animal you are looking for?");
+                    SearchByBreed(breed);
                     break;
                 case "personality":
+                    string personality = UserUI.GetStringInput("What is the name of the animal you are lookiing for?");
+                    SearchByPersonality(personality);
                     break;
                 case "price":
+                    decimal priceChoice = UserUI.GetDecimalInput("What is the name of the animal you are lookiing for?");
+                    SearchByPrice(priceChoice);
                     break;
                 case "all avaliable":
                     break;
@@ -412,6 +420,7 @@ namespace HumaneSociety
                 Console.WriteLine(String.Format("Name: {0} \nSpecies: {1} \nBreed(if Aplicable): {2} \nPersonality: {3} \nRecommended Food Type: {4} \nRecommended Amount Of Food A Week:  {5} \nAdoption Cost: ${6}", item.name, item.species, item.breed, item.personalityType, item.foodType, item.foodAmount, item.price));
                 Console.WriteLine("____________________________________________");
             }
+                       Console.ReadLine();
         }
         public void SearchBySpecies(string species)
         {
@@ -424,6 +433,7 @@ namespace HumaneSociety
                 Console.WriteLine(String.Format("Name: {0} \nSpecies: {1} \nBreed(if Aplicable): {2} \nPersonality: {3} \nRecommended Food Type: {4} \nRecommended Amount Of Food A Week:  {5} \nAdoption Cost: ${6}", item.name, item.species, item.breed, item.personalityType, item.foodType, item.foodAmount, item.price));
                 Console.WriteLine("____________________________________________");
             }
+            Console.ReadLine();
         }
         public void SearchByBreed(string breed)
         {
@@ -436,6 +446,7 @@ namespace HumaneSociety
                 Console.WriteLine(String.Format("Name: {0} \nSpecies: {1} \nBreed(if Aplicable): {2} \nPersonality: {3} \nRecommended Food Type: {4} \nRecommended Amount Of Food A Week:  {5} \nAdoption Cost: ${6}", item.name, item.species, item.breed, item.personalityType, item.foodType, item.foodAmount, item.price));
                 Console.WriteLine("____________________________________________");
             }
+            Console.ReadLine();
         }
         public void SearchByPersonality(string personality)
         {
@@ -448,6 +459,7 @@ namespace HumaneSociety
                 Console.WriteLine(String.Format("Name: {0} \nSpecies: {1} \nBreed(if Aplicable): {2} \nPersonality: {3} \nRecommended Food Type: {4} \nRecommended Amount Of Food A Week:  {5} \nAdoption Cost: ${6}", item.name, item.species, item.breed, item.personalityType, item.foodType, item.foodAmount, item.price));
                 Console.WriteLine("____________________________________________");
             }
+            Console.ReadLine();
         }
         public void SearchByPrice(decimal price)
         {
@@ -460,6 +472,7 @@ namespace HumaneSociety
                 Console.WriteLine(String.Format("Name: {0} \nSpecies: {1} \nBreed(if Aplicable): {2} \nPersonality: {3} \nRecommended Food Type: {4} \nRecommended Amount Of Food A Week:  {5} \nAdoption Cost: ${6}", item.name, item.species, item.breed, item.personalityType, item.foodType, item.foodAmount, item.price));
                 Console.WriteLine("____________________________________________");
             }
+            Console.ReadLine();
         }
         public void ShowAllAvailable()
         {

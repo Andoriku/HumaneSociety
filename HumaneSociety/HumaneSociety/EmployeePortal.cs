@@ -298,7 +298,7 @@ namespace HumaneSociety
 
         public void UpdateAnimal()
         {
-            UserUI.DisplayMessage("You can search for an animal to update its adoption status, change it's name or update it's shots.");
+            UserUI.DisplayMessage("You can search for an animal to update its adoption status, change it's name, change its price, or update it's shots.");
             string idInput = UserUI.GetStringInput("Type in a animalID with dashes:");
             Guid guid = new Guid(idInput);
          
@@ -333,7 +333,7 @@ namespace HumaneSociety
                         select search;
             foreach (Animal item in Query)
             {
-                string newAdoptionStatus = UserUI.GetStringInput("What would you like to change " + item.name + "'s Adoption Status to? Enter 'true' or 'false'");
+                string newAdoptionStatus = UserUI.GetStringInput(item.name + "'s adoption status is " + item.adoptionAvailability + ". What would you like to change " + item.name + "'s Adoption Status to? Enter 'true' or 'false'");
                 bool s;
                 if (newAdoptionStatus == "true")
                 {
@@ -370,7 +370,7 @@ namespace HumaneSociety
                         select search;
             foreach (Animal item in Query)
             {
-                decimal newName = UserUI.GetDecimalInput("What would you like to change " + item.name + "'s price to? Enter new price:");
+                decimal newName = UserUI.GetDecimalInput(item.name + "'s adoption price is $" + item.price + ". What would you like to change " + item.name + "'s price to? Enter new price:");
                 item.price = newName;
                 humaneSocietyDataBase.SubmitChanges();
             }
@@ -382,7 +382,7 @@ namespace HumaneSociety
                         select search;
             foreach (Animal item in Query)
             {
-                string newShotStatus = UserUI.GetStringInput("What would you like to change " + item.name + "'s Shot Status to? Enter 'true' or 'false'");
+                string newShotStatus = UserUI.GetStringInput(item.name + "'s shot status is " + item.Shots + ". What would you like to change " + item.name + "'s Shot Status to? Enter 'true' or 'false'");
                 bool s;
                 if (newShotStatus == "true")
                 {
