@@ -15,7 +15,7 @@ namespace HumaneSociety
         List<string> animalInputs = new List<string>();
         public void Run()
         {
-            string choice = UserUI.GetStringInput("What would you like to do? \n Add Animal to database: '1' \n View Adopter Bio: '2' \n Update Animal Bio: '3' \n Add CSV file to database: '4' \n To go back: 'back' \n Exit the porgram: 'exit'"
+            string choice = UserUI.GetStringInput("What would you like to do? \n Add Animal to database: '1' \n View Adopter Bio: '2' \n Update Animal Bio: '3' \n Add CSV file to database: '4' \n View all animals in the database: '5' \n To go back: 'back' \n Exit the porgram: 'exit'"
 );
             PickTheTask(choice);
         }
@@ -39,8 +39,13 @@ namespace HumaneSociety
                     string filePath = UserUI.GetStringInput("What is the filepath of the CSV file you want to add to the database? Copy and past the file path below:");
                     ImportCSVFile(filePath);
                     break;
+                case "5":
+                    ShowAll();
+                    break;
                 case "back":
                     MainMenu.Run();
+                    break;
+                case "exit":
                     break;
                 default:
                     UserUI.DisplayMessage("Oops! You entered a wrong message! try again.");
@@ -307,7 +312,9 @@ namespace HumaneSociety
         {
             UserUI.DisplayMessage("You can search for an animal to update its adoption status, change it's name, change its price, or update it's shots.");
             string idInput = UserUI.GetStringInput("Type in a animalID with dashes:");
-            Guid guid = new Guid(idInput);
+            try {
+                Guid guid = new Guid(idInput);
+           
          
             string choice = UserUI.GetStringInput("What would you like to update? 'adoption','name', 'price' or 'shots'");
             switch (choice)
@@ -330,8 +337,16 @@ namespace HumaneSociety
                     Console.Clear();
                     UpdateAnimal();
                     break;
+
             }
-            
+            }
+            catch
+            {
+                UserUI.DisplayMessage("Oops! You entered a wrong GUID! try again.");
+                Console.ReadLine();
+                Console.Clear();
+                UpdateAnimal();
+            }
         }
         public void ChageAdoptionStatus(Guid input)
         {
@@ -409,66 +424,89 @@ namespace HumaneSociety
         }
         public void ImportCSVFile(string filePath)
         {
-            IEnumerable<string> csvLines = File.ReadAllLines(filePath);
-            var query = from csvline in csvLines
-                        let data = csvline.Split(',')
-                        select new
-                        {
-                            name = data[0],
-                            species = data[1],
-                            breed = data[2],
-                            roomNumber = data[3],
-                            adoptionAvailability = data[4],
-                            foodType = data[5],
-                            foodAmount = data[6],
-                            personalityType = data[7],
-                            price = data[8],
-                            Shots = data[9]
-                        };
-            foreach(var data in query)
+            try
             {
-                Animal animal = new HumaneSociety.Animal();
-                animal.animalID = System.Guid.NewGuid();
-                animal.name = data.name;
-                animal.species = data.species;
-                animal.breed = data.breed;
-                animal.roomNumber = Convert.ToInt32(data.roomNumber);
-                bool b;
-                if (data.adoptionAvailability == "true")
-                {
-                    b = true;
-                }
-                else if (data.adoptionAvailability == "false")
-                {
-                    b = false;
-                }
-                else
-                {
-                    b = true;
-                }
-                animal.adoptionAvailability = b;
-                animal.foodType = data.foodType;
-                animal.foodAmount = data.foodAmount;
-                animal.personalityType = data.personalityType;
-                animal.price = Convert.ToDecimal(data.price);
-                bool s;
-                if (data.Shots == "y")
-                {
-                    s = true;
-                }
-                else if (data.Shots == "n")
-                {
-                    s = false;
-                }
-                else
-                {
-                    s = true;
-                }
-                animal.Shots = s;
-                humaneSocietyDataBase.Animals.InsertOnSubmit(animal);
-                humaneSocietyDataBase.SubmitChanges();
-            }
+                IEnumerable<string> csvLines;
+                csvLines = File.ReadAllLines(filePath);
 
+                var query = from csvline in csvLines
+                            let data = csvline.Split(',')
+                            select new
+                            {
+                                name = data[0],
+                                species = data[1],
+                                breed = data[2],
+                                roomNumber = data[3],
+                                adoptionAvailability = data[4],
+                                foodType = data[5],
+                                foodAmount = data[6],
+                                personalityType = data[7],
+                                price = data[8],
+                                Shots = data[9]
+                            };
+                foreach (var data in query)
+                {
+                    Animal animal = new HumaneSociety.Animal();
+                    animal.animalID = System.Guid.NewGuid();
+                    animal.name = data.name;
+                    animal.species = data.species;
+                    animal.breed = data.breed;
+                    animal.roomNumber = Convert.ToInt32(data.roomNumber);
+                    bool b;
+                    if (data.adoptionAvailability == "true")
+                    {
+                        b = true;
+                    }
+                    else if (data.adoptionAvailability == "false")
+                    {
+                        b = false;
+                    }
+                    else
+                    {
+                        b = true;
+                    }
+                    animal.adoptionAvailability = b;
+                    animal.foodType = data.foodType;
+                    animal.foodAmount = data.foodAmount;
+                    animal.personalityType = data.personalityType;
+                    animal.price = Convert.ToDecimal(data.price);
+                    bool s;
+                    if (data.Shots == "y")
+                    {
+                        s = true;
+                    }
+                    else if (data.Shots == "n")
+                    {
+                        s = false;
+                    }
+                    else
+                    {
+                        s = true;
+                    }
+                    animal.Shots = s;
+                    humaneSocietyDataBase.Animals.InsertOnSubmit(animal);
+                    humaneSocietyDataBase.SubmitChanges();
+
+                }
+            }
+            catch
+            {
+                UserUI.DisplayMessage("Opps! That's not a correct file path! Try again.");
+                Run();
+            }
+        }
+        public void ShowAll()
+        {
+            var Query = from row in humaneSocietyDataBase.Animals
+                        select row;
+
+            Console.WriteLine("\n All Animals \n");
+            foreach (var item in Query)
+            {              
+                    Console.WriteLine(String.Format("Name: {0} \nSpecies: {1} \nBreed(if Aplicable): {2} \nPersonality: {3} \nRecommended Food Type: {4} \nRecommended Amount Of Food A Week:  {5} \nAdoption Cost: ${6}", item.name, item.species, item.breed, item.personalityType, item.foodType, item.foodAmount, item.price));
+                    Console.WriteLine("____________________________________________");      
+            }
+            Console.ReadLine();
         }
     }
 }

@@ -10,8 +10,18 @@ namespace HumaneSociety
     {
         public static void Run()
         {
-           string choice = UserUI.GetStringInput("Welcome to the Humane Society Pet Adoption Database. To get started, type 'start' or to close out, type 'exit'");
-            StatOrEndProgram(choice);
+            try
+            {
+                string choice = UserUI.GetStringInput("Welcome to the Humane Society Pet Adoption Database. To get started, type 'start' or to close out, type 'exit'");
+                StatOrEndProgram(choice);
+            }
+            catch
+            {
+                UserUI.DisplayMessage("Oops! You entered a wrong message! try again.");
+                Console.ReadLine();
+                Console.Clear();
+               Run();
+            }
         }
         private static void StatOrEndProgram(string choice)
         {
@@ -27,7 +37,7 @@ namespace HumaneSociety
                     UserUI.DisplayMessage("Oops! You entered a wrong message! try again.");
                     Console.ReadLine();
                     Console.Clear();
-                    StatOrEndProgram(choice);
+                    Run();
                     break;
             }
         }

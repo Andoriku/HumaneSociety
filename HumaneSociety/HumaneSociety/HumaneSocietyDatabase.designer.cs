@@ -399,7 +399,8 @@ namespace HumaneSociety
                     decimal priceChoice = UserUI.GetDecimalInput("What is the name of the animal you are lookiing for?");
                     SearchByPrice(priceChoice);
                     break;
-                case "all avaliable":
+                case "all available":
+                    ShowAllAvailable();
                     break;
                 default:
                     UserUI.DisplayMessage("Oops! You entered a wrong message! try again.");
@@ -424,9 +425,9 @@ namespace HumaneSociety
         }
         public void SearchBySpecies(string species)
         {
-            var Query = from search in humaneSocietyDataBase.Animals
-                        where search.species == species
-                        select search;
+            var Query = from Animal in humaneSocietyDataBase.Animals
+                        where Animal.species == species
+                        select Animal;
             Console.WriteLine("\n Search Results \n");
             foreach (var item in Query)
             {
