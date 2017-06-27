@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Linq;
+using System.Data.Linq.Mapping;
+using System.IO;
 
 namespace HumaneSociety
 {
@@ -12,7 +15,7 @@ namespace HumaneSociety
         List<string> animalInputs = new List<string>();
         public void Run()
         {
-            string choice = UserUI.GetStringInput("What would you like to do? \n Add Animal to database: '1' \n View Adopter Bio: '2' \n Update Animal Bio: '3' \n To go back: 'back' \n Exit the porgram: 'exit'"
+            string choice = UserUI.GetStringInput("What would you like to do? \n Add Animal to database: '1' \n View Adopter Bio: '2' \n Update Animal Bio: '3' \n Add CSV file to database: '4' \n To go back: 'back' \n Exit the porgram: 'exit'"
 );
             PickTheTask(choice);
         }
@@ -31,6 +34,10 @@ namespace HumaneSociety
                     break;
                 case "3":
                     UpdateAnimal();
+                    break;
+                case "4":
+                    string filePath = UserUI.GetStringInput("What is the filepath of the CSV file you want to add to the database? Copy and past the file path below:");
+                    ImportCSVFile(filePath);
                     break;
                 case "back":
                     MainMenu.Run();
@@ -399,6 +406,69 @@ namespace HumaneSociety
                 item.Shots = s;
                 humaneSocietyDataBase.SubmitChanges();
             }
+        }
+        public void ImportCSVFile(string filePath)
+        {
+            IEnumerable<string> csvLines = File.ReadAllLines(filePath);
+            var query = from csvline in csvLines
+                        let data = csvline.Split(',')
+                        select new
+                        {
+                            name = data[0],
+                            species = data[1],
+                            breed = data[2],
+                            roomNumber = data[3],
+                            adoptionAvailability = data[4],
+                            foodType = data[5],
+                            foodAmount = data[6],
+                            personalityType = data[7],
+                            price = data[8],
+                            Shots = data[9]
+                        };
+            foreach(var data in query)
+            {
+                Animal animal = new HumaneSociety.Animal();
+                animal.animalID = System.Guid.NewGuid();
+                animal.name = data.name;
+                animal.species = data.species;
+                animal.breed = data.breed;
+                animal.roomNumber = Convert.ToInt32(data.roomNumber);
+                bool b;
+                if (data.adoptionAvailability == "true")
+                {
+                    b = true;
+                }
+                else if (data.adoptionAvailability == "false")
+                {
+                    b = false;
+                }
+                else
+                {
+                    b = true;
+                }
+                animal.adoptionAvailability = b;
+                animal.foodType = data.foodType;
+                animal.foodAmount = data.foodAmount;
+                animal.personalityType = data.personalityType;
+                animal.price = Convert.ToDecimal(data.price);
+                bool s;
+                if (data.Shots == "y")
+                {
+                    s = true;
+                }
+                else if (data.Shots == "n")
+                {
+                    s = false;
+                }
+                else
+                {
+                    s = true;
+                }
+                animal.Shots = s;
+                humaneSocietyDataBase.Animals.InsertOnSubmit(animal);
+                humaneSocietyDataBase.SubmitChanges();
+            }
+
         }
     }
 }
